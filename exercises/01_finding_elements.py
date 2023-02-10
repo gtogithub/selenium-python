@@ -11,6 +11,7 @@ driver = webdriver.Chrome(service=chromeService)
 url = "https://ultimateqa.com/simple-html-elements-for-automation/"
 
 driver.maximize_window()
+
 driver.get(url)
 
 driver.find_element(By.XPATH, "//input[@data-original_id='name']").send_keys("Tester")
@@ -20,6 +21,7 @@ driver.find_element(By.XPATH, "//button[@class='et_pb_contact_submit et_pb_butto
 message = driver.find_element(By.XPATH, "//div[@class='et-pb-contact-message']/p").text
 #assert "Thanks for contacting us" in message
 
+#------------------------------
 
 url2 = "https://rahulshettyacademy.com/AutomationPractice/"
 driver.get(url2)
@@ -35,3 +37,8 @@ for country in countries:
         break
     
 assert driver.find_element(By.CSS_SELECTOR, "input[id='autocomplete']").get_attribute("value") == "Poland"
+
+#------------------------------
+assert driver.find_element(By.ID, "displayed-text").is_displayed()
+driver.find_element(By.ID, "hide-textbox").click()
+assert not driver.find_element(By.ID, "displayed-text").is_displayed()
