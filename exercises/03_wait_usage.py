@@ -1,4 +1,3 @@
-import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -20,12 +19,18 @@ driver.find_element(By.XPATH, "//input[@type='search']").send_keys("ber")
 products = driver.find_elements(By.CSS_SELECTOR, "div[class='product']")
 
 assert (len(products)) > 0 
+sum = 0
 
 for product in products:
+    sum += int(product.find_element(By.CSS_SELECTOR, "p").text)
     product.find_element(By.XPATH, "div/button").click()
 
 driver.find_element(By.XPATH, "//a[@class='cart-icon']/img").click()
 driver.find_element(By.XPATH, "//button[text()='PROCEED TO CHECKOUT']").click()
+
+assert sum == int(driver.find_element(By.CSS_SELECTOR, ".totAmt").text)
+
+
 driver.find_element(By.CSS_SELECTOR, ".promoCode").send_keys("rahulshettyacademy")
 driver.find_element(By.CSS_SELECTOR, ".promoBtn").click()
 
@@ -33,5 +38,10 @@ wait = WebDriverWait(driver, 10)
 wait.until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".promoInfo")))
 
 assert "Code applied" in driver.find_element(By.CSS_SELECTOR, ".promoInfo").text
+
+afterDiscount = float(driver.find_element(By.CSS_SELECTOR, ".discountAmt").text)
+discount = int(driver.find_element(By.CSS_SELECTOR, ".discountPerc").text.replace("%", ""))
+
+assert sum * (100-discount)/100 == afterDiscount
 
 
