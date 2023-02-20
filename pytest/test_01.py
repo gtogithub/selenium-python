@@ -1,30 +1,38 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
-import pytest
+from BaseClass import BaseClass
+from CheckoutPage import CheckoutPage
+from DeliveryPage import DeliveryPage
+from HomePage import HomePage
+from ShopPage import ShopPage
 
 
-@pytest.mark.usefixtures("browser_setup")
-class TestOne:
+class TestOne(BaseClass):
     # first test case
     def test_buy_blackberry(self):
         driver = self.driver
         driver.implicitly_wait(4)
-        driver.find_element(By.CSS_SELECTOR," a[href*='shop']").click()
-        products = driver.find_elements(By.XPATH,"//div[@class='card h-100']")
+        homePage = HomePage(driver)
+        shopPage = ShopPage(driver)
+        checkoutPage = CheckoutPage(driver)
+        deliveryPage = DeliveryPage(driver)
+        
+        homePage.go_to_shop().click()
+        products = shopPage.get_products()
 
         for product in products :
-            productName = product.find_element(By.XPATH, "div/h4/a").text
+            productName = shopPage.get_product_name(product).text
             if productName == "Blackberry":
-                product.find_element(By.XPATH, "div/button").click()
+                shopPage.buy_product(product).click()
 
-        driver.find_element(By.CSS_SELECTOR,"a[class*='btn-primary']").click()
-        driver.find_element(By.XPATH,"//button[@class='btn btn-success']").click()
-        driver.find_element(By.ID,"country").send_keys("pol")
+        shopPage.select_checkout().click()
+        checkoutPage.select_checkout().click()
+        deliveryPage.insert_location().send_keys("pol")
         wait = WebDriverWait(driver,10)
         wait.until(expected_conditions.presence_of_element_located((By.LINK_TEXT,"Poland")))
-        driver.find_element(By.LINK_TEXT,"Poland").click()
-        driver.find_element(By.XPATH,"//div[@class='checkbox checkbox-primary']").click()
-        driver.find_element(By.CSS_SELECTOR,"[type='submit']").click()
-        successText = driver.find_element(By.CLASS_NAME,"alert-success").text
+        deliveryPage.choose_location().click()
+        deliveryPage.select_checkbox().click()
+        deliveryPage.purchase().click()
+        successText = deliveryPage.get_confirmation().text
         assert "Success! Thank you!" in successText
