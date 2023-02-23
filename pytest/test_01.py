@@ -2,23 +2,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from BaseClass import BaseClass
-from CheckoutPage import CheckoutPage
-from DeliveryPage import DeliveryPage
-from HomePage import HomePage
-from ShopPage import ShopPage
+from pageObjects.CheckoutPage import CheckoutPage
+from pageObjects.DeliveryPage import DeliveryPage
+from pageObjects.HomePage import HomePage
+from pageObjects.ShopPage import ShopPage
 
 
 class TestOne(BaseClass):
     # first test case
     def test_buy_blackberry(self):
+        
         driver = self.driver
         driver.implicitly_wait(4)
-        homePage = HomePage(driver)
-        shopPage = ShopPage(driver)
-        checkoutPage = CheckoutPage(driver)
-        deliveryPage = DeliveryPage(driver)
         
-        homePage.go_to_shop().click()
+        homePage = HomePage(driver)
+        shopPage = homePage.go_to_shop()
         products = shopPage.get_products()
 
         for product in products :
@@ -26,8 +24,8 @@ class TestOne(BaseClass):
             if productName == "Blackberry":
                 shopPage.buy_product(product).click()
 
-        shopPage.select_checkout().click()
-        checkoutPage.select_checkout().click()
+        checkoutPage = shopPage.select_checkout()
+        deliveryPage = checkoutPage.select_checkout()
         deliveryPage.insert_location().send_keys("pol")
         wait = WebDriverWait(driver,10)
         wait.until(expected_conditions.presence_of_element_located((By.LINK_TEXT,"Poland")))

@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from pageObjects.DeliveryPage import DeliveryPage
 
 
 class CheckoutPage:
@@ -8,5 +9,7 @@ class CheckoutPage:
     checkoutButton = (By.XPATH,"//button[@class='btn btn-success']")
     
     def select_checkout(self):
-        return self.driver.find_element(*CheckoutPage.checkoutButton)
+        self.driver.find_element(*CheckoutPage.checkoutButton).click()
+        deliveryPage = DeliveryPage(self.driver)
+        return deliveryPage
         

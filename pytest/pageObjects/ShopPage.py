@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from pageObjects.CheckoutPage import CheckoutPage
 
 
 class ShopPage:
@@ -20,4 +21,6 @@ class ShopPage:
         return product.find_element(*ShopPage.buyButton)
     
     def select_checkout(self):
-        return self.driver.find_element(*ShopPage.checkoutButton)
+        self.driver.find_element(*ShopPage.checkoutButton).click()
+        checkoutPage = CheckoutPage(self.driver)
+        return checkoutPage
