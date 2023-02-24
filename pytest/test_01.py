@@ -1,19 +1,16 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
+import pytest
 from BaseClass import BaseClass
-from pageObjects.CheckoutPage import CheckoutPage
-from pageObjects.DeliveryPage import DeliveryPage
+from TestData import TestData
 from pageObjects.HomePage import HomePage
-from pageObjects.ShopPage import ShopPage
 
 
 class TestOne(BaseClass):
-    # first test case
-    def test_buy_blackberry(self):
+
+    def test_buy_blackberry(self, get_data):
         
         driver = self.driver
         driver.implicitly_wait(4)
+        driver.get("https://rahulshettyacademy.com/angularpractice/")
         
         homePage = HomePage(driver)
         shopPage = homePage.go_to_shop()
@@ -26,11 +23,14 @@ class TestOne(BaseClass):
 
         checkoutPage = shopPage.select_checkout()
         deliveryPage = checkoutPage.select_checkout()
-        deliveryPage.insert_location().send_keys("pol")
-        wait = WebDriverWait(driver,10)
-        wait.until(expected_conditions.presence_of_element_located((By.LINK_TEXT,"Poland")))
+        deliveryPage.insert_location().send_keys(get_data["firstLetters"])
+        self.verify_link_presence(get_data["countryLink"])
         deliveryPage.choose_location().click()
         deliveryPage.select_checkbox().click()
         deliveryPage.purchase().click()
         successText = deliveryPage.get_confirmation().text
         assert "Success! Thank you!" in successText
+
+    @pytest.fixture(params=TestData.data1)        
+    def get_data(self, request):
+        return request.param

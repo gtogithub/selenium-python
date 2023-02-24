@@ -6,7 +6,7 @@ class DeliveryPage:
         self.driver = driver
         
     locationField = (By.ID,"country")
-    locationPoland = (By.LINK_TEXT,"Poland")
+    location = (By.LINK_TEXT,"Poland")
     checkbox = (By.XPATH,"//div[@class='checkbox checkbox-primary']")
     purchaseButton = (By.CSS_SELECTOR,"[type='submit']")
     successText = (By.CLASS_NAME,"alert-success")
@@ -15,7 +15,7 @@ class DeliveryPage:
         return self.driver.find_element(*DeliveryPage.locationField)
     
     def choose_location(self):
-        return self.driver.find_element(*DeliveryPage.locationPoland)
+        return self.driver.find_element(*DeliveryPage.location)
     
     def select_checkbox(self):
         return self.driver.find_element(*DeliveryPage.checkbox)
