@@ -1,2 +1,6 @@
 pytest/__pycache__/
 logfile.log
+pytest/report.html
+pytest/assets/
+pytest/pageObjects/__pycache__/
+pytest/test_02.py_TestHomePage_test_formSubmission[getData4].png

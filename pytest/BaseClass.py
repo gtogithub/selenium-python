@@ -1,3 +1,5 @@
+import inspect
+import logging
 from selenium.webdriver.support.select import Select
 import pytest
 from selenium.webdriver.common.by import By
@@ -17,3 +19,13 @@ class BaseClass:
         sel.select_by_visible_text(text)
         
     
+    def get_logs(self):
+        loggerName = inspect.stack()[1][3]
+        logger = logging.getLogger(loggerName)
+        fileHandler = logging.FileHandler('logfile.log')
+        formatter = logging.Formatter("%(asctime)s : %(levelname)s : %(name)s : %(message)s")
+        fileHandler.setFormatter(formatter)
+        logger.addHandler(fileHandler)
+        logger.setLevel(logging.INFO)
+        return logger
+        

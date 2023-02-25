@@ -11,14 +11,18 @@ class TestOne(BaseClass):
         driver = self.driver
         driver.implicitly_wait(4)
         driver.get("https://rahulshettyacademy.com/angularpractice/")
+        log = self.get_logs()
         
         homePage = HomePage(driver)
+        log.info("Opening Shop page")
         shopPage = homePage.go_to_shop()
+        log.info("Collecting all products")
         products = shopPage.get_products()
 
         for product in products :
             productName = shopPage.get_product_name(product).text
             if productName == "Blackberry":
+                log.info("Buying product: "+productName)
                 shopPage.buy_product(product).click()
 
         checkoutPage = shopPage.select_checkout()
@@ -29,6 +33,8 @@ class TestOne(BaseClass):
         deliveryPage.select_checkbox().click()
         deliveryPage.purchase().click()
         successText = deliveryPage.get_confirmation().text
+        log.info("Checking if purchase was succesful")
+        log.info("-"*20+"END"+"-"*20)
         assert "Success! Thank you!" in successText
 
     @pytest.fixture(params=TestData.data1)        

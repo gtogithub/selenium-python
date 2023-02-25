@@ -10,4 +10,6 @@ class TestData:
         {"name": "Andrew", "email": "andy@gmail.com", "gender": "Male"},
         {"name": "Bill", "email": "billy@gmail.com", "gender": "Male"},
         {"name": "Jane", "email": "jane@gmail.com", "gender": "Female"},
+        {"name": "Kate", "email": "kate@gmail.com", "gender": "Female"},
+        {"name": "Scooby", "email": "scooby@gmail.com", "gender": "wooof"},
         ]
