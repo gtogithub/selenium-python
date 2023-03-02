@@ -4,3 +4,6 @@ pytest/report.html
 pytest/assets/
 pytest/pageObjects/__pycache__/
 pytest/test_02.py_TestHomePage_test_formSubmission[getData4].png
+pytest/result.xml
+pytest/test_01.py_TestOne_test_buy_blackberry[get_data0].png
+pytest/test_02.py_TestHomePage_test_formSubmission[getData4].png

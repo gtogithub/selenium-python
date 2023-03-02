@@ -22,7 +22,7 @@ class TestHomePage(BaseClass):
         assert ("Success" in alertText)
         self.driver.refresh()
 
-    @pytest.fixture(params=TestData.data2)
+    @pytest.fixture(params=TestData.get_excel_data())
     def getData(self, request):
         return request.param
 
